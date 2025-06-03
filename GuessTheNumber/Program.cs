@@ -1,3 +1,5 @@
 ﻿
 
-Console.WriteLine("Hello, World!");
+using GuessTheNumber;
+
+MainPanel.GuessUserPanel();

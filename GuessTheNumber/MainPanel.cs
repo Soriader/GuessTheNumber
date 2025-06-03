@@ -3,29 +3,17 @@
 public class MainPanel
 {
     public static GuessMethods GuessMethods = new GuessMethods();
-    public string GuessUserPanel()
+    public static void GuessUserPanel()
     {
+        Console.WriteLine($"Welcome in game - Guess a number\nPlease enter the number you would like to guess");
+
         var userAnswer = Console.ReadLine();
-        var correctAnswer = int.TryParse(userAnswer, out int number);
-        int guessNumber = 0;
         
-        if (!correctAnswer)
+        while (!GuessMethods.ProcessGuess(userAnswer))
         {
-            Console.WriteLine("Please enter a correct number from 1 to 1000");
+            userAnswer = Console.ReadLine();
+        };
 
-            while (!GuessMethods.IsNotCorrectNumber(userAnswer))
-            {
-                userAnswer = Console.ReadLine();
-            }
-            
-            guessNumber = int.Parse(userAnswer);
-        }
-
-        while (!GuessMethods.WinTheGame(guessNumber))
-        {
-            
-        }
-        
-        return $"You win! The number for guess is {guessNumber}";
+        Console.WriteLine($"You win! The number you had to guess was: {userAnswer}");
     }
 }

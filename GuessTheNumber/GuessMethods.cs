@@ -9,25 +9,30 @@ public class GuessMethods
         _winNumber = new Random().Next(1, 1001);
     }
 
-    public bool WinTheGame(int guessNumber)
+    public bool IsGuessCorrect(int guessNumber)
     {
-        if (_winNumber > guessNumber)
+        if (_winNumber == guessNumber)
         {
-            VeryClose(_winNumber, guessNumber);
-            Console.WriteLine("Your number is too low!");
-            return false;
+            return true;
         }
-        else if (_winNumber < guessNumber)
+        
+        if (Math.Abs(_winNumber - guessNumber) <= 20)
         {
-            VeryClose(_winNumber, guessNumber);
-            Console.WriteLine("Your number is too high!");
-            return false;
+            Console.WriteLine(_winNumber > guessNumber 
+                ? "Your number is too low, but you're very close!" 
+                : "Your number is too high, but you're very close!");
         }
-
-        return true;
+        else
+        {
+            Console.WriteLine(_winNumber > guessNumber 
+                ? "Your number is too low!" 
+                : "Your number is too high!");
+        }
+        
+        return false;
     }
 
-    private bool VeryClose(int winNumber, int guessNumber)
+    private bool IsGuessClose(int winNumber, int guessNumber)
     {
         if (winNumber > guessNumber && winNumber - guessNumber <= 20)
         {
@@ -43,13 +48,28 @@ public class GuessMethods
         return false;
     }
 
-    public bool IsNotCorrectNumber(string userAnswer)
+    public bool ProcessGuess(string guessNumber)
     {
-        if(int.TryParse(userAnswer, out int number) && int.Parse(userAnswer) >= 1 && int.Parse(userAnswer) <= 1000)
+        int answer = IsNotCorrectNumber(guessNumber);
+        
+        if (answer == -1)
         {
-            return true;
+            Console.WriteLine("Invalid input. Please enter a number between 1 and 1000.");
+            return false;
         }
         
-        return false;
+        return IsGuessCorrect(answer);
     }
+    
+
+    public int IsNotCorrectNumber(string userAnswer)
+    {
+        if (int.TryParse(userAnswer, out int number) && number >= 1 && number <= 1000)
+        {
+            return number;
+        }   
+        
+        return -1;
+    }
+    
 }
